@@ -1,0 +1,4 @@
+repo: https://github.com/juju-solutions/charm-kubeflow-tf-job-operator.git
+includes:
+  - "layer:caas-base"
+  - "layer:status"

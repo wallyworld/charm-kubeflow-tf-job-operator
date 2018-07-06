@@ -1,0 +1,14 @@
+name: kubeflow-tf-job-operator
+summary: The TensorFlow Job Operator for KubeFlow
+maintainers:
+  - Juju Developers <juju@lists.ubuntu.com>
+description: |
+  This charm deploys the Job Operator configured for use with Kubeflow to
+  Kubernetes models in Juju.
+tags:
+  - machine-learning
+  - ai
+  - bigdata
+  - kubeflow
+series:
+  - kubernetes
