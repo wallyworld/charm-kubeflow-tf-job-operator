@@ -9,7 +9,7 @@ from charms.layer.basic import pod_spec_set
 
 @when_not('charm.kubeflow-tf-job-operator.started')
 def start_charm():
-    layer.status.maintenance('configuring tf-job-operator container')
+    layer.status.maintenance('configuring container')
 
     conf_dir = '/etc/tf_operator'
     conf_file = 'controller_config_file.yaml'
@@ -44,5 +44,5 @@ def start_charm():
         ],
     }))
 
-    layer.status.active('ready')
+    layer.status.maintenance('creating container')
     set_flag('charm.kubeflow-tf-job-operator.started')
