@@ -26,6 +26,12 @@ def start_charm():
                     '--alsologtostderr',
                     '-v=1',
                 ],
+                'ports': [
+                    {
+                        'name': 'dummy',
+                        'containerPort': 9999,
+                    },
+                ],
                 'files': [
                     {
                         'name': 'configs',
