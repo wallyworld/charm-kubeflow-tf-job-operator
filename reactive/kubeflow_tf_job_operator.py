@@ -1,5 +1,7 @@
+import os
 import yaml
 
+from charmhelpers.core import hookenv
 from charms.reactive import set_flag
 from charms.reactive import when, when_not
 
@@ -41,6 +43,10 @@ def start_charm():
                         'containerPort': 9999,
                     },
                 ],
+                'config': {
+                    'MY_POD_NAMESPACE': os.environ['JUJU_MODEL_NAME'],
+                    'MY_POD_NAME': hookenv.service_name(),
+                },
                 'files': [
                     {
                         'name': 'configs',
