@@ -2,7 +2,7 @@ import os
 import yaml
 
 from charmhelpers.core import hookenv
-from charms.reactive import set_flag
+from charms.reactive import set_flag, clear_flag
 from charms.reactive import when, when_not
 
 from charms import layer
@@ -18,9 +18,25 @@ def fetch_image():
 def start_charm():
     layer.status.maintenance('configuring container')
 
+    config = hookenv.config()
     conf_dir = '/etc/tf_operator'
     conf_file = 'controller_config_file.yaml'
     image_info = layer.docker_resource.get_info('tf-operator-image')
+
+    if config['job-version'] == 'v1alpha2':
+        command = [
+            '/opt/kubeflow/tf-operator.v2',
+            '--alsologtostderr',
+            '-v=1',
+        ]
+    else:
+        command = [
+            '/opt/mlkube/tf-operator',
+            '--controller-config-file={}/{}'.format(conf_dir, conf_file),
+            '--alsologtostderr',
+            '-v=1',
+        ]
+
     layer.caas_base.pod_spec_set({
         'containers': [
             {
@@ -30,13 +46,7 @@ def start_charm():
                     'username': image_info.username,
                     'password': image_info.password,
                 },
-                'command': [
-                    '/opt/mlkube/tf-operator',
-                    '--controller-config-file={}/{}'.format(conf_dir,
-                                                            conf_file),
-                    '--alsologtostderr',
-                    '-v=1',
-                ],
+                'command': command,
                 'ports': [
                     {
                         'name': 'dummy',
@@ -67,3 +77,10 @@ def start_charm():
 
     layer.status.maintenance('creating container')
     set_flag('charm.kubeflow-tf-job-operator.started')
+
+
+@when('charm.kubeflow-tf-job-operator.started')
+@when('config.changed.job-version')
+def restart_container():
+    clear_flag('charm.kubeflow-tf-job-operator.started')
+    clear_flag('config.changed.job-version')
