@@ -8,12 +8,7 @@ from charms.reactive import when, when_not
 from charms import layer
 
 
-@when_not('layer.docker-resource.tf-operator-image.fetched')
-def fetch_image():
-    layer.docker_resource.fetch('tf-operator-image')
-
-
-@when('layer.docker-resource.tf-operator-image.fetched')
+@when('layer.docker-resource.tf-operator-image.available')
 @when_not('charm.kubeflow-tf-job-operator.started')
 def start_charm():
     layer.status.maintenance('configuring container')

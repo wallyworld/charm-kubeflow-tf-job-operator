@@ -15,4 +15,5 @@ series:
 resources:
   tf-operator-image:
     type: docker
-    description: 'Image for tf_operator'
+    description: 'Image for tf-operator'
+    auto-fetch: true
