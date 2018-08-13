@@ -14,6 +14,6 @@ series:
   - kubernetes
 resources:
   tf-operator-image:
-    type: docker
+    type: oci-image
     description: 'Image for tf-operator'
     auto-fetch: true

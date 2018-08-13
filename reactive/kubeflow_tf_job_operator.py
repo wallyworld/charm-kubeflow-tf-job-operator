@@ -3,9 +3,15 @@ import yaml
 
 from charmhelpers.core import hookenv
 from charms.reactive import set_flag, clear_flag
-from charms.reactive import when, when_not
+from charms.reactive import when, when_not, when_any
 
 from charms import layer
+
+
+@when_any('layer.docker-resource.tf-operator-image.changed',
+          'config.changed')
+def update_image():
+    clear_flag('charm.kubeflow-tf-job-operator.started')
 
 
 @when('layer.docker-resource.tf-operator-image.available')
