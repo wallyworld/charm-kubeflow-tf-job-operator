@@ -74,6 +74,47 @@ def start_charm():
                 ],
             },
         ],
+        'customResourceDefinition': [
+            {
+                'group': 'kubeflow.org',
+                'version': 'v1alpha2',
+                'scope': 'Namespaced',
+                'kind': 'TFJob',
+                'validation': {
+                    'properties': {
+                        'tfReplicaSpecs': {
+                            'properties': {
+                                'Worker': {
+                                    'properties': {
+                                        'replicas': {
+                                            'type': 'integer',
+                                            'minimum': 1
+                                        }
+                                    }
+                                },
+                                'PS': {
+                                    'properties': {
+                                        'replicas': {
+                                            'type': 'integer',
+                                            'minimum': 1
+                                        }
+                                    }
+                                },
+                                'Chief': {
+                                    'properties': {
+                                        'replicas': {
+                                            'type': 'integer',
+                                            'minimum': 1,
+                                            'maximum': 1
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+        ],
     })
 
     layer.status.maintenance('creating container')
